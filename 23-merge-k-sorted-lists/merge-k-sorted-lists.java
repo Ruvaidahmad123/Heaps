@@ -10,21 +10,28 @@
  */
 class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
-        PriorityQueue<Integer>pq=new PriorityQueue<>();
-        for(int i=0;i<lists.length;i++){
-            ListNode temp=lists[i];
-            while(temp!=null){
-                pq.add(temp.val);
-                temp=temp.next;
+        PriorityQueue<ListNode> pq = new PriorityQueue<>((a, b) -> a.val - b.val);
+        
+        // Add the head of each list to the priority queue
+        for (ListNode node : lists) {
+            if (node != null) {
+                pq.add(node);
             }
         }
-        ListNode temp=new ListNode(-1);
-        ListNode dummy=temp;
-        while(!pq.isEmpty()){
-            ListNode newnode=new ListNode(pq.poll());
-            temp.next=newnode;
-            temp=newnode;
+        
+        ListNode dummy = new ListNode(0);
+        ListNode current = dummy;
+        
+        while (!pq.isEmpty()) {
+            ListNode node = pq.poll();
+            current.next = node;
+            current = current.next; // Move to the next node
+            
+            if (node.next != null) {
+                pq.add(node.next); // Add the next node of the extracted node
+            }
         }
-        return dummy.next;
+        
+        return dummy.next; // Return the merged list
     }
 }
