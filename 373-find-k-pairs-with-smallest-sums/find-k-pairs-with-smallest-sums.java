@@ -1,3 +1,83 @@
+//Complete Brute Force using MinHeap - TIME COMPLEXITY = O(m*n*log(k)) - TLE
+import java.util.*;
+
+class Solution {
+    public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
+        // Min-heap to store pairs based on their sum
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> Integer.compare(a[0], b[0]));
+
+        int m = nums1.length;
+        int n = nums2.length;
+
+        // Generate all possible pairs and add their sums to the priority queue
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                int sum = nums1[i] + nums2[j];
+
+                if (pq.size() < k) {
+                    pq.offer(new int[]{sum, i, j}); // Store sum and indices
+                } else if (pq.peek()[0] > sum) {
+                    pq.poll(); // Remove the largest sum in the heap
+                    pq.offer(new int[]{sum, i, j});
+                }
+            }
+        }
+
+        List<List<Integer>> result = new ArrayList<>();
+
+        // Collect the k smallest pairs from the heap
+        while (!pq.isEmpty()) {
+            int[] temp = pq.poll();
+            int i = temp[1];
+            int j = temp[2];
+            result.add(Arrays.asList(nums1[i], nums2[j]));
+        }
+
+        return result;
+    }
+}
+
+//Approach-2 (Improved BRUTE FORCE) 
+//Complete Brute Force using MinHeap - TIME COMPLEXITY < O(m*n*log(k)) - ACCEPTED
+import java.util.*;
+
+class Solution {
+    public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
+        // Min-heap to store pairs based on their sum
+        PriorityQueue<int[]> pq = new PriorityQueue<>((a, b) -> Integer.compare(a[0], b[0]));
+
+        int m = nums1.length;
+        int n = nums2.length;
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                int sum = nums1[i] + nums2[j];
+
+                if (pq.size() < k) {
+                    pq.offer(new int[]{sum, i, j}); // Store sum and indices
+                } else if (pq.peek()[0] > sum) {
+                    pq.poll(); // Remove the largest sum in the heap
+                    pq.offer(new int[]{sum, i, j});
+                } else {
+                    break; // Slight improvement: Break if the current sum is greater than the largest sum in the heap
+                }
+            }
+        }
+
+        List<List<Integer>> result = new ArrayList<>();
+
+        while (!pq.isEmpty()) {
+            int[] temp = pq.poll();
+            int i = temp[1];
+            int j = temp[2];
+            result.add(Arrays.asList(nums1[i], nums2[j]));
+        }
+
+        return result;
+    }
+}
+
+//Approach-3 (Slight Better approach) - O(klog(k))
 import java.util.*;
 
 class Solution {
