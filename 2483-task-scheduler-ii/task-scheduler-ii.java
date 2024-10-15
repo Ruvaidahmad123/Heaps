@@ -1,3 +1,4 @@
+//heap cant be used here because task should be completed in order as it is given where as in case of heap order wasn't required
 class Solution {
     public long taskSchedulerII(int[] tasks, int space) {
         Map<Integer, Long> nextAvailableTime = new HashMap<>();
