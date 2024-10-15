@@ -9,11 +9,11 @@ class Solution {
             if (nextAvailableTime.containsKey(task)) {
                 long lastAvailable = nextAvailableTime.get(task);
                 if (currentTime <= lastAvailable) {
-                    currentTime = lastAvailable + 1;  // wait until the task can be executed
+                    currentTime = lastAvailable;  // wait until the task can be executed
                 }
             }
             
-            nextAvailableTime.put(task, currentTime + space);  // update when this task can be executed again
+            nextAvailableTime.put(task, currentTime + space+1);  // update when this task can be executed again
         }
         
         return currentTime;
